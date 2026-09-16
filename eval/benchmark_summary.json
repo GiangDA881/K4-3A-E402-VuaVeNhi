@@ -1,0 +1,262 @@
+{
+  "total": 20,
+  "passed": 18,
+  "failed": 2,
+  "accuracy": 90.0,
+  "cat_stats": {
+    "Happy Path": {
+      "total": 12,
+      "passed": 12
+    },
+    "Ambiguous / Clarify": {
+      "total": 4,
+      "passed": 2
+    },
+    "Out of Scope": {
+      "total": 4,
+      "passed": 4
+    }
+  },
+  "results": [
+    {
+      "id": "TC01",
+      "category": "Happy Path",
+      "query": "đoạn agent suy nghĩ rồi gọi công cụ, hình như là ReAct",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 7455,
+      "output_title": "ReAct: Suy luận và Hành động (Reasoning + Acting)",
+      "rationale": "Học viên mô tả quá trình agent suy nghĩ trước khi thực hiện hành động gọi công cụ, đây là mô tả chính xác của mô hình **ReAct** (Reasoning + Acting) trong khóa học. Chủ đề này giải thích rõ quy trình kết hợp suy luận tư duy (Thought) với hành động (Action) để tương tác với môi trường.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC02",
+      "category": "Happy Path",
+      "query": "cách chuẩn hóa tools schema và bắt buộc tham số trong tools.yaml",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4124,
+      "output_title": "Định dạng & Chuẩn hóa Schema Công cụ (tools.yaml)",
+      "rationale": "Câu hỏi của học viên liên quan trực tiếp đến việc định dạng và chuẩn hóa schema công cụ theo định dạng OpenAPI/JSON Schema, bao gồm việc mô tả tường minh tham số, kiểu dữ liệu và bắt buộc các trường required trong file `tools.yaml`. Đây là một trong những chủ đề cốt lõi trong kho bài giảng.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC03",
+      "category": "Happy Path",
+      "query": "xử lý context carry-over khi người dùng đổi ý ở lượt chat sau",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 5479,
+      "output_title": "Context Carry-over: Quản lý ngữ cảnh qua nhiều lượt",
+      "rationale": "Câu hỏi liên quan đến việc quản lý ngữ cảnh qua nhiều lượt chat khi người dùng thay đổi ý kiến hoặc bổ sung thông tin cho câu hỏi trước đó, hoàn toàn phù hợp với chủ đề **Context Carry-over** trong kho bài giảng. Chủ đề này cung cấp chiến lược xử lý thông tin hội thoại nhiều lượt, bao gồm nhận diện sự thay đổi ý định và cập nhật ngữ cảnh một cách logic.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC04",
+      "category": "Happy Path",
+      "query": "giới hạn context window và cách tóm tắt token",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4454,
+      "output_title": "Giới hạn Cửa sổ Ngữ cảnh (Context Window) & Tóm tắt Token",
+      "rationale": "Học viên đang tìm hiểu về chiến lược quản lý độ dài lịch sử chat khi vượt quá ngưỡng token tối đa của mô hình, bao gồm cả cách tóm tắt token và giới hạn cửa sổ ngữ cảnh, hoàn toàn phù hợp với chủ đề **Context Window** trong kho bài giảng.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC05",
+      "category": "Happy Path",
+      "query": "lỗi stale confirmation là gì và cách phòng chống",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 5032,
+      "output_title": "Phòng chống Tái sử dụng Xác nhận cũ (Stale Confirmation)",
+      "rationale": "Học viên đang tìm hiểu về vấn đề **Stale Confirmation** — một rủi ro an toàn quan trọng trong hệ thống Agentic Workflow, khi agent tự động thực hiện hành vi nhạy cảm (như tạo ticket, xóa dữ liệu) dựa trên sự đồng ý của lượt chat cũ mà sau đó người dùng đã thay đổi tham số. Chủ đề này nằm trong kho bài giảng với nội dung chi tiết về nguyên nhân, ví dụ thực tế và giải pháp phòng chống.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC06",
+      "category": "Happy Path",
+      "query": "kỹ thuật Few-shot prompting kèm ví dụ mẫu trong bài giảng",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4798,
+      "output_title": "Few-shot Prompting: Kỹ thuật mớm mẫu đầu vào - đầu ra",
+      "rationale": "Học viên yêu cầu kỹ thuật Few-shot Prompting, một chủ đề chính được đề cập trong kho bài giảng với ví dụ cụ thể về cách sử dụng mẫu đầu vào - đầu ra để cải thiện hiệu suất của mô hình. Chủ đề này bao gồm cả định nghĩa và ví dụ minh họa trong hệ thống.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC07",
+      "category": "Happy Path",
+      "query": "thiết lập system prompt cấm đoán mã nhân viên hoặc asset ID",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4095,
+      "output_title": "Thiết lập Ranh giới An toàn trong System Prompt",
+      "rationale": "Học viên đang tìm kiếm cách thiết lập hệ thống cảnh báo và cấm đoán trong system prompt để ngăn chặn việc lộ thông tin nhạy cảm như mã nhân viên hoặc asset ID, điều này hoàn toàn phù hợp với chủ đề 'Thiết lập Ranh giới An toàn trong System Prompt' (system_prompt_guardrails) trong kho bài giảng.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC08",
+      "category": "Happy Path",
+      "query": "ngăn chặn rò rỉ dữ liệu nội bộ ra công cụ tìm kiếm bên ngoài như Tavily",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4712,
+      "output_title": "Ngăn chặn Rò rỉ Dữ liệu Nội bộ ra Web bên ngoài (Data Leakage)",
+      "rationale": "Học viên đang đề cập đến việc bảo mật thông tin nội bộ và ngăn chặn rò rỉ dữ liệu nhạy cảm khi tương tác với công cụ tìm kiếm bên ngoài như Tavily, hoàn toàn phù hợp với chủ đề 'Ngăn chặn Rò rỉ Dữ liệu Nội bộ ra Web bên ngoài' trong kho bài giảng.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC09",
+      "category": "Happy Path",
+      "query": "chu trình Thought Action Observation lặp lại đến khi hoàn thành",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 3992,
+      "output_title": "Vòng tuần hoàn Thought - Action - Observation",
+      "rationale": "Học viên đang mô tả quy trình vòng lặp Thought (suy luận), Action (hành động gọi công cụ) và Observation (nhận quan sát) trong mô hình ReAct, đây chính là mô tả chi tiết về chu trình hoạt động của **Vòng tuần hoàn Thought - Action - Observation** trong khóa học.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC10",
+      "category": "Happy Path",
+      "query": "gọi nhiều tool song song trong một lượt phản hồi parallel tool call",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4424,
+      "output_title": "Parallel Tool Calling: Gọi công cụ song song",
+      "rationale": "Học viên đang tìm hiểu về kỹ thuật **Parallel Tool Calling**, tức cách cho phép mô hình LLM sinh và thực thi nhiều lời gọi công cụ đồng thời trong một lượt suy luận để tối ưu hiệu suất và giảm thời gian chờ. Chủ đề này nằm trong kho bài giảng với ví dụ cụ thể về cách áp dụng trong Agentic Workflow.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC11",
+      "category": "Happy Path",
+      "query": "chuẩn hóa báo cáo sự cố bằng incident report format",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 3994,
+      "output_title": "Chuẩn hóa Báo cáo Sự cố (Incident Report Format)",
+      "rationale": "Câu hỏi của học viên trực tiếp liên quan đến chủ đề chuẩn hóa báo cáo sự cố theo định dạng JSON cấu trúc, nằm trong kho bài giảng với nội dung chi tiết về cấu trúc mã thiết bị, triệu chứng, mã lỗi và hướng dẫn khắc phục.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC12",
+      "category": "Happy Path",
+      "query": "tra cứu trạng thái dịch vụ hạ tầng VPN, SSO, Email theo môi trường",
+      "expected_state": "FOUND",
+      "actual_state": "FOUND",
+      "is_pass": true,
+      "latency_ms": 4481,
+      "output_title": "Kiểm tra Trạng thái Dịch vụ Hạ tầng (VPN, SSO, Wi-Fi)",
+      "rationale": "Học viên yêu cầu tra cứu trạng thái hoạt động của các dịch vụ hạ tầng cốt lõi (VPN, SSO, Email) theo môi trường (production/staging), hoàn toàn phù hợp với chủ đề 'Kiểm tra Trạng thái Dịch vụ Hạ tầng' trong kho bài giảng. Đây là một trong những tác vụ thực tế được mô tả chi tiết trong phần này, bao gồm cách sử dụng công cụ tra cứu trạng thái và phân tích phản hồi.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC13",
+      "category": "Ambiguous / Clarify",
+      "query": "mình nhớ bài có nói về context nhưng không rõ là gì",
+      "expected_state": "CLARIFY",
+      "actual_state": "CLARIFY",
+      "is_pass": true,
+      "latency_ms": 2972,
+      "output_title": "",
+      "rationale": "Bạn muốn tìm hiểu về chủ đề nào liên quan đến **context** trong khóa học ReAct? Ví dụ: quản lý ngữ cảnh qua nhiều lượt chat, giới hạn cửa sổ ngữ cảnh, hoặc phòng chống tái sử dụng xác nhận cũ?",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC14",
+      "category": "Ambiguous / Clarify",
+      "query": "chỗ thầy nhắc về confirmation cần chú ý những gì",
+      "expected_state": "CLARIFY",
+      "actual_state": "FOUND",
+      "is_pass": false,
+      "latency_ms": 2455,
+      "output_title": "Phòng chống Tái sử dụng Xác nhận cũ (Stale Confirmation)",
+      "rationale": "Học viên đang tham khảo phần về **Stale Confirmation** (Xác nhận lỗi thời), một trong những quy tắc an toàn quan trọng trong hệ thống ReAct để ngăn chặn hành vi tự động thực hiện tác vụ nhạy cảm (như tạo ticket, xóa dữ liệu) khi thông tin xác nhận đã bị thay đổi hoặc lỗi thời. Chủ đề này giải quyết nhu cầu hiểu rõ về rủi ro và cách xử lý trong môi trường tương tác động tác.",
+      "failure_analysis": "Mô hình đưa ra quyết định FOUND thay vì CLARIFY do mức độ tự tin suy luận."
+    },
+    {
+      "id": "TC15",
+      "category": "Ambiguous / Clarify",
+      "query": "hướng dẫn làm bài lab",
+      "expected_state": "CLARIFY",
+      "actual_state": "CLARIFY",
+      "is_pass": true,
+      "latency_ms": 4710,
+      "output_title": "",
+      "rationale": "Bạn muốn tìm hiểu về chủ đề nào trong bài lab cụ thể? Ví dụ: cấu trúc định dạng công cụ, cách quản lý ngữ cảnh qua nhiều lượt, quy trình ReAct, hoặc kỹ thuật few-shot prompting?",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC16",
+      "category": "Ambiguous / Clarify",
+      "query": "cách viết prompt cho agent",
+      "expected_state": "CLARIFY",
+      "actual_state": "FOUND",
+      "is_pass": false,
+      "latency_ms": 4196,
+      "output_title": "Few-shot Prompting: Kỹ thuật mớm mẫu đầu vào - đầu ra",
+      "rationale": "Học viên đang tìm cách viết prompt hiệu quả cho agent, chủ đề này liên quan trực tiếp đến kỹ thuật Few-shot Prompting, nơi cung cấp các ví dụ đầu vào - đầu ra cụ thể để hướng dẫn mô hình sinh ra output phù hợp với định dạng mong muốn. Đây là kỹ thuật cơ bản và quan trọng trong việc tối ưu hóa hiệu suất của agent.",
+      "failure_analysis": "Mô hình đưa ra quyết định FOUND thay vì CLARIFY do mức độ tự tin suy luận."
+    },
+    {
+      "id": "TC17",
+      "category": "Out of Scope",
+      "query": "dự báo xu hướng giá Bitcoin và tiền ảo tuần này bằng Python",
+      "expected_state": "NOT_FOUND",
+      "actual_state": "NOT_FOUND",
+      "is_pass": true,
+      "latency_ms": 5017,
+      "output_title": "",
+      "rationale": "Nội dung về dự báo xu hướng giá Bitcoin và tiền ảo không nằm trong phạm vi khóa học AI20k, cũng như không liên quan đến các chủ đề về ReAct, quản lý ngữ cảnh, bảo mật dữ liệu hoặc công cụ agentic workflow được giảng dạy trong kho bài giảng.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC18",
+      "category": "Out of Scope",
+      "query": "cách cấu hình server Nginx và deploy website Django lên AWS",
+      "expected_state": "NOT_FOUND",
+      "actual_state": "NOT_FOUND",
+      "is_pass": true,
+      "latency_ms": 19351,
+      "output_title": "",
+      "rationale": "Nội dung về cấu hình server Nginx và triển khai website Django không nằm trong phạm vi khóa học AI20k, mà thuộc lĩnh vực phát triển web backend và hạ tầng cloud chuyên sâu (AWS EC2, Load Balancer, Docker). Khóa học tập trung vào kiến thức về Agentic Workflow, ReAct Pattern và các kỹ thuật tối ưu hóa hệ thống AI như Context Carry-over, Few-shot Prompting, và quản lý ngữ cảnh trong môi trường chatbot.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC19",
+      "category": "Out of Scope",
+      "query": "thuật toán giải bài LeetCode Two Sum tối ưu độ phức tạp O(n)",
+      "expected_state": "NOT_FOUND",
+      "actual_state": "NOT_FOUND",
+      "is_pass": true,
+      "latency_ms": 4022,
+      "output_title": "",
+      "rationale": "Nội dung về thuật toán giải bài Two Sum của LeetCode không nằm trong phạm vi khóa học AI20k, tập trung vào kiến thức về ReAct, quản lý ngữ cảnh, an toàn hệ thống và kiến trúc agentic workflow.",
+      "failure_analysis": ""
+    },
+    {
+      "id": "TC20",
+      "category": "Out of Scope",
+      "query": "ngày mai thời tiết Hà Nội có mưa không",
+      "expected_state": "NOT_FOUND",
+      "actual_state": "NOT_FOUND",
+      "is_pass": true,
+      "latency_ms": 4478,
+      "output_title": "",
+      "rationale": "Nội dung về dự báo thời tiết Hà Nội không nằm trong phạm vi khóa học AI20k, tập trung vào kiến thức về ReAct, quản lý ngữ cảnh, an toàn dữ liệu và các công cụ agentic workflow.",
+      "failure_analysis": ""
+    }
+  ]
+}

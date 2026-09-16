@@ -1,0 +1,162 @@
+[
+  {
+    "id": "TC01",
+    "category": "Happy Path",
+    "query": "đoạn agent suy nghĩ rồi gọi công cụ, hình như là ReAct",
+    "expected_state": "FOUND",
+    "expected_topic": "react_pattern",
+    "description": "Truy hồi khái niệm ReAct (Reasoning + Acting) trong vòng lặp agent."
+  },
+  {
+    "id": "TC02",
+    "category": "Happy Path",
+    "query": "cách chuẩn hóa tools schema và bắt buộc tham số trong tools.yaml",
+    "expected_state": "FOUND",
+    "expected_topic": "tool_schema",
+    "description": "Khai báo định dạng công cụ, type, required fields trong Function Calling."
+  },
+  {
+    "id": "TC03",
+    "category": "Happy Path",
+    "query": "xử lý context carry-over khi người dùng đổi ý ở lượt chat sau",
+    "expected_state": "FOUND",
+    "expected_topic": "context_carryover",
+    "description": "Kỹ thuật duy trì hoặc cập nhật ngữ cảnh hội thoại nhiều lượt."
+  },
+  {
+    "id": "TC04",
+    "category": "Happy Path",
+    "query": "giới hạn context window và cách tóm tắt token",
+    "expected_state": "FOUND",
+    "expected_topic": "context_window",
+    "description": "Giới hạn cửa sổ ngữ cảnh và phương pháp nén/tóm tắt lịch sử chat."
+  },
+  {
+    "id": "TC05",
+    "category": "Happy Path",
+    "query": "lỗi stale confirmation là gì và cách phòng chống",
+    "expected_state": "FOUND",
+    "expected_topic": "stale_confirmation",
+    "description": "Nguy cơ tái sử dụng xác nhận cũ khi tham số đã thay đổi."
+  },
+  {
+    "id": "TC06",
+    "category": "Happy Path",
+    "query": "kỹ thuật Few-shot prompting kèm ví dụ mẫu trong bài giảng",
+    "expected_state": "FOUND",
+    "expected_topic": "few_shot_prompting",
+    "description": "Đưa ví dụ minh họa (input-output pairs) vào prompt để định hình kết quả."
+  },
+  {
+    "id": "TC07",
+    "category": "Happy Path",
+    "query": "thiết lập system prompt cấm đoán mã nhân viên hoặc asset ID",
+    "expected_state": "FOUND",
+    "expected_topic": "system_prompt_guardrails",
+    "description": "Ranh giới an toàn: cấm mô hình suy diễn định danh nội bộ."
+  },
+  {
+    "id": "TC08",
+    "category": "Happy Path",
+    "query": "ngăn chặn rò rỉ dữ liệu nội bộ ra công cụ tìm kiếm bên ngoài như Tavily",
+    "expected_state": "FOUND",
+    "expected_topic": "data_leakage_prevention",
+    "description": "Chính sách Data Privacy: lọc sạch ID/IP/mật khẩu trước khi gọi web search."
+  },
+  {
+    "id": "TC09",
+    "category": "Happy Path",
+    "query": "chu trình Thought Action Observation lặp lại đến khi hoàn thành",
+    "expected_state": "FOUND",
+    "expected_topic": "react_loop",
+    "description": "Vòng tuần hoàn suy luận, hành động và quan sát trong Agentic AI."
+  },
+  {
+    "id": "TC10",
+    "category": "Happy Path",
+    "query": "gọi nhiều tool song song trong một lượt phản hồi parallel tool call",
+    "expected_state": "FOUND",
+    "expected_topic": "parallel_tool_calling",
+    "description": "Mô hình sinh nhiều tool calls đồng thời để tối ưu thời gian phản hồi."
+  },
+  {
+    "id": "TC11",
+    "category": "Happy Path",
+    "query": "chuẩn hóa báo cáo sự cố bằng incident report format",
+    "expected_state": "FOUND",
+    "expected_topic": "incident_report_format",
+    "description": "Định dạng JSON chuẩn đầu ra khi tổng hợp sự cố kỹ thuật."
+  },
+  {
+    "id": "TC12",
+    "category": "Happy Path",
+    "query": "tra cứu trạng thái dịch vụ hạ tầng VPN, SSO, Email theo môi trường",
+    "expected_state": "FOUND",
+    "expected_topic": "service_status_check",
+    "description": "Công cụ kiểm tra service status production hoặc staging."
+  },
+  {
+    "id": "TC13",
+    "category": "Ambiguous / Clarify",
+    "query": "mình nhớ bài có nói về context nhưng không rõ là gì",
+    "expected_state": "CLARIFY",
+    "expected_topic": "context_disambiguation",
+    "description": "Câu hỏi mơ hồ: nhập nhằng giữa Context Carry-over và Context Window."
+  },
+  {
+    "id": "TC14",
+    "category": "Ambiguous / Clarify",
+    "query": "chỗ thầy nhắc về confirmation cần chú ý những gì",
+    "expected_state": "CLARIFY",
+    "expected_topic": "confirmation_disambiguation",
+    "description": "Nhập nhằng giữa Stale Confirmation guardrail và Ticket Confirmation flow."
+  },
+  {
+    "id": "TC15",
+    "category": "Ambiguous / Clarify",
+    "query": "hướng dẫn làm bài lab",
+    "expected_state": "CLARIFY",
+    "expected_topic": "lab_disambiguation",
+    "description": "Câu hỏi quá chung chung, cần làm rõ đang hỏi Lab 03 hay Lab 04."
+  },
+  {
+    "id": "TC16",
+    "category": "Ambiguous / Clarify",
+    "query": "cách viết prompt cho agent",
+    "expected_state": "CLARIFY",
+    "expected_topic": "prompt_disambiguation",
+    "description": "Nhập nhằng giữa System Prompt định hình vai trò và ReAct Prompt hướng dẫn gọi tool."
+  },
+  {
+    "id": "TC17",
+    "category": "Out of Scope",
+    "query": "dự báo xu hướng giá Bitcoin và tiền ảo tuần này bằng Python",
+    "expected_state": "NOT_FOUND",
+    "expected_topic": "out_of_scope",
+    "description": "Nội dung tài chính/crypto hoàn toàn ngoài giáo trình AI20k."
+  },
+  {
+    "id": "TC18",
+    "category": "Out of Scope",
+    "query": "cách cấu hình server Nginx và deploy website Django lên AWS",
+    "expected_state": "NOT_FOUND",
+    "expected_topic": "out_of_scope",
+    "description": "Nội dung Web DevOps ngoài phạm vi bài học AI Agent."
+  },
+  {
+    "id": "TC19",
+    "category": "Out of Scope",
+    "query": "thuật toán giải bài LeetCode Two Sum tối ưu độ phức tạp O(n)",
+    "expected_state": "NOT_FOUND",
+    "expected_topic": "out_of_scope",
+    "description": "Bài toán cấu trúc dữ liệu giải thuật ngoài phạm vi môn học."
+  },
+  {
+    "id": "TC20",
+    "category": "Out of Scope",
+    "query": "ngày mai thời tiết Hà Nội có mưa không",
+    "expected_state": "NOT_FOUND",
+    "expected_topic": "out_of_scope",
+    "description": "Câu hỏi thời tiết tán gẫu không liên quan tài liệu bài giảng."
+  }
+]

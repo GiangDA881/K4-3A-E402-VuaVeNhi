@@ -1,0 +1,156 @@
+{
+  "topics": {
+    "react_pattern": {
+      "title": "ReAct: Suy luận và Hành động (Reasoning + Acting)",
+      "summary": "Mô hình ReAct kết hợp bước suy luận tư duy (Thought) với hành động gọi công cụ (Action) để tương tác môi trường bên ngoài và nhận quan sát (Observation).",
+      "sources": [
+        {
+          "title": "Mô hình ReAct và Vòng lặp Agent",
+          "location": "Bài 04 · Slide trang 12",
+          "text": "Agent phân tích câu hỏi của người dùng, xác định thông tin còn thiếu, chọn một công cụ phù hợp rồi đọc kết quả trả về. Vòng lặp tiếp tục đến khi đủ dữ kiện để đưa ra câu trả lời cuối cùng."
+        },
+        {
+          "title": "Minh họa Agent gọi tool ngoài",
+          "location": "Bài 04 · Transcript phút 18:25",
+          "text": "Khi gặp câu hỏi cần dữ liệu động thời gian thực, agent không tự suy diễn mà kích hoạt lời gọi tool và sử dụng dữ liệu quan sát được."
+        }
+      ]
+    },
+    "tool_schema": {
+      "title": "Định dạng & Chuẩn hóa Schema Công cụ (tools.yaml)",
+      "summary": "Khai báo định dạng công cụ chuẩn OpenAPI / JSON Schema, mô tả tường minh tham số, kiểu dữ liệu và bắt buộc các trường required.",
+      "sources": [
+        {
+          "title": "Chuẩn hóa Schema và Enum trong tools.yaml",
+          "location": "Bài 03 · Slide trang 18",
+          "text": "Mỗi công cụ bắt buộc phải có trường description rõ ràng và schema định nghĩa type (string, integer, boolean), enum giá trị cố định và mảng required parameters."
+        },
+        {
+          "title": "Xử lý tham số thiếu trong Function Calling",
+          "location": "Bài 03 · Transcript phút 24:10",
+          "text": "Nếu người dùng chưa cung cấp đủ tham số bắt buộc, agent cần gọi công cụ clarify hoặc đặt câu hỏi làm rõ thay vì tự đoán mò giá trị."
+        }
+      ]
+    },
+    "context_carryover": {
+      "title": "Context Carry-over: Quản lý ngữ cảnh qua nhiều lượt",
+      "summary": "Xử lý thông tin hội thoại nhiều lượt: nhận diện khi người dùng đổi ý, thay đổi tham số hoặc bổ sung thông tin cho câu hỏi trước đó.",
+      "sources": [
+        {
+          "title": "Xử lý đổi ý và cập nhật ngữ cảnh",
+          "location": "Bài 04 · Slide trang 25",
+          "text": "Khi người dùng thay đổi lựa chọn (ví dụ: 'thôi kiểm tra máy LT-205 thay vì LT-204'), hệ thống phải ghi đè tham số mới vào state và hủy bỏ các giả định cũ."
+        },
+        {
+          "title": "Giải quyết đại từ chỉ định trong hội thoại",
+          "location": "Bài 04 · Transcript phút 32:40",
+          "text": "Khi người học hỏi 'còn cái đó thì sao', agent cần truy hồi đúng thực thể được nhắc đến ở lượt trước từ lịch sử chat."
+        }
+      ]
+    },
+    "context_window": {
+      "title": "Giới hạn Cửa sổ Ngữ cảnh (Context Window) & Tóm tắt Token",
+      "summary": "Chiến lược quản lý độ dài lịch sử chat khi vượt quá ngưỡng token tối đa của mô hình, áp dụng rolling window hoặc tóm tắt thông tin.",
+      "sources": [
+        {
+          "title": "Quản lý Token Limit trong Chat Agent",
+          "location": "Bài 02 · Slide trang 08",
+          "text": "Context window có giới hạn cố định. Khi hội thoại kéo dài, cần tóm tắt các lượt trao đổi cũ để giữ lại các thông tin sự kiện quan trọng nhất."
+        }
+      ]
+    },
+    "stale_confirmation": {
+      "title": "Phòng chống Tái sử dụng Xác nhận cũ (Stale Confirmation)",
+      "summary": "Ngăn chặn rủi ro agent tự động thực hiện hành vi nhạy cảm (tạo ticket, xóa dữ liệu) dựa trên sự đồng ý của lượt chat trước khi tham số đã bị sửa đổi.",
+      "sources": [
+        {
+          "title": "Nguyên tắc An toàn Ticketing & Confirmation Guardrail",
+          "location": "Bài 04 · Slide trang 34",
+          "text": "Một sự xác nhận (confirmed=True) chỉ có hiệu lực cho đúng bộ tham số được hỏi tại thời điểm đó. Mọi thay đổi về mô tả sự cố hoặc mức độ ưu tiên bắt buộc phải yêu cầu xác nhận lại từ đầu."
+        },
+        {
+          "title": "Chặn lỗ hổng Stale Confirmation",
+          "location": "Bài 04 · Transcript phút 45:15",
+          "text": "Không được dùng cờ xác nhận cũ để tạo ticket mới khi người dùng đã sửa đổi asset ID."
+        }
+      ]
+    },
+    "few_shot_prompting": {
+      "title": "Few-shot Prompting: Kỹ thuật mớm mẫu đầu vào - đầu ra",
+      "summary": "Cung cấp từ 2 đến 5 cặp ví dụ (Input - Output) cụ thể trong prompt giúp mô hình hiểu định dạng mong muốn và giảm thiểu lỗi cú pháp.",
+      "sources": [
+        {
+          "title": "Kỹ thuật Prompting theo mẫu (Few-shot Examples)",
+          "location": "Bài 02 · Slide trang 15",
+          "text": "Thay vì chỉ mô tả luật bằng lời, việc cung cấp 2-3 ví dụ mẫu giúp LLM tuân thủ định dạng JSON hoặc phong cách trả lời đạt độ chính xác trên 95%."
+        }
+      ]
+    },
+    "system_prompt_guardrails": {
+      "title": "Thiết lập Ranh giới An toàn trong System Prompt",
+      "summary": "Quy tắc cốt lõi: Cấm agent đoán mò mã định danh nhân viên (user_id), mã thiết bị (asset_tag) và từ chối các yêu cầu ngoài quyền hạn.",
+      "sources": [
+        {
+          "title": "Thiết kế System Prompt Chuẩn Doanh Nghiệp",
+          "location": "Bài 04 · Slide trang 05",
+          "text": "Nguyên tắc bất di bất dịch: Khi người dùng không cung cấp asset ID hoặc employee ID, agent bắt buộc phải hỏi lại (clarify), tuyệt đối không tự bịa đặt."
+        }
+      ]
+    },
+    "data_leakage_prevention": {
+      "title": "Ngăn chặn Rò rỉ Dữ liệu Nội bộ ra Web bên ngoài (Data Leakage)",
+      "summary": "Chính sách bảo mật: Tuyệt đối không đưa asset ID, tên nhân viên, mật khẩu hoặc IP nội bộ vào payload của các công cụ tìm kiếm công cộng.",
+      "sources": [
+        {
+          "title": "Bảo vệ Dữ liệu Doanh nghiệp khi gọi External Search",
+          "location": "Bài 04 · Slide trang 29",
+          "text": "Trước khi gửi query đến Tavily hoặc Google Search, agent phải lọc sạch toàn bộ định danh nội bộ, chỉ giữ lại tên model thiết bị và triệu chứng lỗi phần cứng."
+        }
+      ]
+    },
+    "react_loop": {
+      "title": "Vòng tuần hoàn Thought - Action - Observation",
+      "summary": "Quy trình thực thi logic của Agentic Workflow qua các bước suy nghĩ lý do, thực thi công cụ và phân tích phản hồi từ môi trường.",
+      "sources": [
+        {
+          "title": "Cơ chế hoạt động bên trong vòng lặp ReAct",
+          "location": "Bài 04 · Slide trang 14",
+          "text": "1. Thought: Mô hình giải thích vì sao cần gọi tool. 2. Action: Gọi hàm kèm tham số JSON. 3. Observation: Nhận kết quả từ hệ thống. 4. Thought tiếp theo để kết luận."
+        }
+      ]
+    },
+    "parallel_tool_calling": {
+      "title": "Parallel Tool Calling: Gọi công cụ song song",
+      "summary": "Kỹ thuật cho phép LLM sinh nhiều lời gọi công cụ trong một bước suy luận để thực thi đồng thời nhiều tác vụ độc lập.",
+      "sources": [
+        {
+          "title": "Tối ưu hóa Hiệu năng với Parallel Calling",
+          "location": "Bài 03 · Slide trang 22",
+          "text": "Khi người dùng yêu cầu kiểm tra cả VPN lẫn chẩn đoán thiết bị LT-204, agent gọi đồng thời check_service_status và inspect_device trong một lượt."
+        }
+      ]
+    },
+    "incident_report_format": {
+      "title": "Chuẩn hóa Báo cáo Sự cố (Incident Report Format)",
+      "summary": "Định dạng JSON cấu trúc khi tổng hợp sự cố bao gồm mã thiết bị, dịch vụ ảnh hưởng, triệu chứng, mã lỗi và hướng dẫn khắc phục.",
+      "sources": [
+        {
+          "title": "Định dạng Incident Report chuẩn",
+          "location": "Bài 04 · Slide trang 20",
+          "text": "Báo cáo sự cố cần xuất đúng format có cấu trúc để hệ thống IT dễ dàng phân loại và phân bổ nhân sự xử lý."
+        }
+      ]
+    },
+    "service_status_check": {
+      "title": "Kiểm tra Trạng thái Dịch vụ Hạ tầng (VPN, SSO, Wi-Fi)",
+      "summary": "Sử dụng công cụ tra cứu trạng thái hoạt động của các dịch vụ cốt lõi theo môi trường production hoặc staging.",
+      "sources": [
+        {
+          "title": "Kiểm tra Hạ tầng Dịch vụ",
+          "location": "Bài 04 · Slide trang 16",
+          "text": "Tool check_service_status hỗ trợ các dịch vụ: vpn, sso, email, wifi, printing. Nếu người dùng chọn môi trường không hợp lệ, cần yêu cầu chọn lại."
+        }
+      ]
+    }
+  }
+}

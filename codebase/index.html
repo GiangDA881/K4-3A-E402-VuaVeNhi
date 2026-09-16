@@ -47,7 +47,60 @@ function reveal(){ $('results').focus();$('results').scrollIntoView({behavior:'s
 function edit(){ $('query').focus();$('query').scrollIntoView({behavior:'smooth',block:'center'}) }
 function found(key){current=fixtures[key];$('results').innerHTML='<span class="status">FOUND · NGUỒN GỢI Ý</span><h2></h2><p class="summary"></p><div id="cards"></div><div class="divider"></div><button class="secondary" id="editQuery">Sửa câu hỏi</button><div id="completion" role="status"></div>';$('results').querySelector('h2').textContent=current.title;$('results').querySelector('.summary').textContent=current.summary;current.sources.slice(0,3).forEach((source,i)=>{const card=document.createElement('article');card.className='source';const title=document.createElement('h3');title.textContent=source.title;const loc=document.createElement('p');loc.className='small';loc.textContent=source.location+' · Dữ liệu minh họa';const button=document.createElement('button');button.className='secondary';button.textContent='Mở đúng đoạn →';button.onclick=()=>openSource(i);card.append(title,loc,button);$('cards').append(card)});$('editQuery').onclick=edit;reveal()}
 function openSource(i){const source=current.sources[i];$('sourceTitle').textContent=source.title;$('sourceLocation').textContent=source.location;$('sourceText').textContent=source.text;$('sourceDialog').showModal()}
-function search(){const value=$('query').value.trim();if(!value){$('error').textContent='Hãy nhập điều bạn nhớ để bắt đầu tìm.';$('query').focus();return}$('error').textContent='';const state=classify(value);if(fixtures[state])return found(state);if(state==='clarify'){$('results').innerHTML='<span class="status amber">CLARIFY · CẦN LÀM RÕ</span><h2>Bạn đang nhớ loại context nào?</h2><p>Có nhiều cách hiểu. Chọn chủ đề gần với điều bạn đang tìm.</p><button class="secondary choice" data-topic="carry"><strong>Giữ ngữ cảnh qua nhiều lượt</strong><br><span class="small">Nhớ câu trước để hiểu câu tiếp theo.</span></button><button class="secondary choice" data-topic="window"><strong>Giới hạn context window</strong><br><span class="small">Lượng token mô hình có thể xử lý.</span></button><button class="secondary" id="editQuery">Không phải hai ý này · sửa câu hỏi</button>';$('results').querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>found(b.dataset.topic))}else{$('results').innerHTML='<span class="status neutral">NOT_FOUND · CHƯA CÓ NGUỒN</span><h2>Chưa tìm thấy trong phạm vi bản mẫu.</h2><p>Chưa có nguồn phù hợp để trả lời câu hỏi này. Bạn có thể thêm tên bài, khái niệm hoặc mô tả cụ thể hơn.</p><div class="note">Mock hiện chỉ có ReAct, tools và context. Kết quả này không kết luận rằng nội dung không có trong tài liệu khóa học.</div><div class="row" style="margin-top:18px"><button class="primary" id="editQuery">Sửa câu hỏi</button><button class="secondary" id="tryReact">Thử ví dụ ReAct</button></div>';$('tryReact').onclick=()=>{$('query').value='ReAct suy nghĩ rồi gọi tool';search()}}$('editQuery').onclick=edit;reveal()}
+async function search(){const value=$('query').value.trim();if(!value){$('error').textContent='Hãy nhập điều bạn nhớ để bắt đầu tìm.';$('query').focus();return}$('error').textContent='';
+$('results').innerHTML='<span class="status" style="background:#e0f2fe;color:#0369a1">⚡ AI ĐANG SUY LUẬN & TRUY HỒI NGUỒN...</span><h2>Đang phân tích ngữ cảnh...</h2><p class="summary">Mô hình AI đang tra cứu trong kho tri thức bài giảng để đối chiếu đoạn nguồn chính xác nhất.</p>';reveal();
+try {
+  const resp = await fetch('/api/recall', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({query: value})
+  });
+  if(resp.ok){
+    const data = await resp.json();
+    handleAIResult(data);
+    return;
+  }
+} catch(e){
+  console.log("Server offline, using client fallback", e);
+}
+fallbackSearch(value);
+}
+function handleAIResult(data){
+  if(data.decision==='FOUND'){
+    current = {title: data.title, summary: data.summary, sources: data.sources};
+    $('results').innerHTML='<span class="status" style="background:#dcfce7;color:#15803d">✓ FOUND · AI TRUY HỒI THỰC TẾ ('+data.latency_ms+'ms)</span><h2></h2><div class="note" style="background:#f0fdf4;border-left:4px solid #16a34a;margin:12px 0 16px"><strong>Phân tích của AI: </strong><span id="aiRationale"></span></div><p class="summary"></p><div id="cards"></div><div class="divider"></div><button class="secondary" id="editQuery">Sửa câu hỏi</button><div id="completion" role="status"></div>';
+    $('results').querySelector('h2').textContent=data.title;
+    $('results').querySelector('.summary').textContent=data.summary;
+    $('aiRationale').textContent=data.rationale;
+    data.sources.forEach((source,i)=>{
+      const card=document.createElement('article');card.className='source';
+      const title=document.createElement('h3');title.textContent=source.title;
+      const loc=document.createElement('p');loc.className='small';loc.textContent=source.location+' · Nguồn bài giảng đã xác thực';
+      const button=document.createElement('button');button.className='secondary';button.textContent='Mở đúng đoạn →';button.onclick=()=>openSource(i);
+      card.append(title,loc,button);$('cards').append(card);
+    });
+    $('editQuery').onclick=edit;reveal();
+  } else if(data.decision==='CLARIFY'){
+    $('results').innerHTML='<span class="status amber">? CLARIFY · CẦN LÀM RÕ ('+data.latency_ms+'ms)</span><h2 id="clarifyTitle"></h2><p>Có nhiều nội dung liên quan. Hãy chọn chủ đề gần nhất với điều bạn đang tìm:</p><div id="clarifyButtons"></div><button class="secondary" id="editQuery" style="margin-top:12px">Không phải các ý này · sửa câu hỏi</button>';
+    $('clarifyTitle').textContent=data.clarify_question;
+    data.clarify_options.forEach(opt=>{
+      const b=document.createElement('button');b.className='secondary choice';
+      b.innerHTML='<strong>'+opt.label+'</strong>';
+      b.onclick=()=>{ $('query').value=opt.label; search(); };
+      $('clarifyButtons').append(b);
+    });
+    $('editQuery').onclick=edit;reveal();
+  } else {
+    $('results').innerHTML='<span class="status neutral">✕ NOT_FOUND · NGOÀI PHẠM VI ('+data.latency_ms+'ms)</span><h2>Nội dung nằm ngoài giáo trình AI20k</h2><p id="notfoundReason"></p><div class="note">Gợi ý từ khóa trong khóa học: <strong>'+(data.suggested_keywords||[]).join(', ')+'</strong></div><div class="row" style="margin-top:18px"><button class="primary" id="editQuery">Sửa câu hỏi</button><button class="secondary" id="tryReact">Thử ví dụ ReAct</button></div>';
+    $('notfoundReason').textContent=data.reason;
+    $('tryReact').onclick=()=>{$('query').value='ReAct suy nghĩ rồi gọi tool';search()};
+    $('editQuery').onclick=edit;reveal();
+  }
+}
+function fallbackSearch(value){
+  const state=classify(value);if(fixtures[state])return found(state);
+  if(state==='clarify'){$('results').innerHTML='<span class="status amber">CLARIFY · CẦN LÀM RÕ</span><h2>Bạn đang nhớ loại context nào?</h2><p>Có nhiều cách hiểu. Chọn chủ đề gần với điều bạn đang tìm.</p><button class="secondary choice" data-topic="carry"><strong>Giữ ngữ cảnh qua nhiều lượt</strong><br><span class="small">Nhớ câu trước để hiểu câu tiếp theo.</span></button><button class="secondary choice" data-topic="window"><strong>Giới hạn context window</strong><br><span class="small">Lượng token mô hình có thể xử lý.</span></button><button class="secondary" id="editQuery">Không phải hai ý này · sửa câu hỏi</button>';$('results').querySelectorAll('[data-topic]').forEach(b=>b.onclick=()=>found(b.dataset.topic))}else{$('results').innerHTML='<span class="status neutral">NOT_FOUND · CHƯA CÓ NGUỒN</span><h2>Chưa tìm thấy trong phạm vi bản mẫu.</h2><p>Chưa có nguồn phù hợp để trả lời câu hỏi này. Bạn có thể thêm tên bài, khái niệm hoặc mô tả cụ thể hơn.</p><div class="row" style="margin-top:18px"><button class="primary" id="editQuery">Sửa câu hỏi</button><button class="secondary" id="tryReact">Thử ví dụ ReAct</button></div>';$('tryReact').onclick=()=>{$('query').value='ReAct suy nghĩ rồi gọi tool';search()}}$('editQuery').onclick=edit;reveal();
+}
 $('searchForm').onsubmit=e=>{e.preventDefault();search()};document.querySelectorAll('[data-example]').forEach(b=>b.onclick=()=>{$('query').value=b.dataset.example;$('error').textContent='';$('query').focus()});$('query').oninput=()=>{$('error').textContent=''};
 $('closeSource').onclick=()=>$('sourceDialog').close();$('wrongSource').onclick=()=>{$('sourceDialog').close();edit()};$('confirmSource').onclick=()=>{$('sourceDialog').close();$('completion').innerHTML='<div class="success"><strong>Đã tìm đúng phần cần ôn.</strong><br>Bạn có thể đọc lại đoạn nguồn hoặc bắt đầu một câu hỏi mới.<div style="margin-top:12px"><button class="secondary" id="restart">Tìm nội dung khác</button></div></div>';$('restart').onclick=()=>{$('query').value='';$('results').replaceChildren();current=null;edit()};$('completion').scrollIntoView({behavior:'smooth',block:'nearest'})};$('flowButton').onclick=()=>$('flowDialog').showModal();$('closeFlow').onclick=()=>$('flowDialog').close();
 </script></body></html>

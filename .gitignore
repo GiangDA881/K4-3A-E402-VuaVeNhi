@@ -1,0 +1,24 @@
+# Environment variables & secrets
+.env
+*.env
+*.pem
+*.key
+
+# Data pack protection (Hackathon Security Rule)
+data/
+vlearn-pack/
+discord-pack/
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

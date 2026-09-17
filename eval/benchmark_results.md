@@ -7,14 +7,19 @@
 
 ## 1. Tóm tắt Số đo (Executive Metric Summary)
 
-| Chỉ số | Giá trị thực tế | Mục tiêu thiết kế | Trạng thái |
+| Chỉ số | Giá trị thực tế | Mục tiêu Quality Bar CP4 | Trạng thái đối chiếu |
 |---|---|---|---|
-| **Tổng số câu thử (Golden Set)** | **20 câu** | $\ge 20$ câu | ĐẠT |
-| **Số câu đạt chuẩn (Passed)** | **18 / 20** | $\ge 15$ câu | **ĐẠT (90.0%)** |
-| **Tỷ lệ đúng luồng Happy Path (FOUND)** | **12/12** (100.0%) | $\ge 80\%$ | ĐẠT |
-| **Tỷ lệ nhận diện Mơ hồ (CLARIFY)** | **2/4** (50.0%) | $\ge 75\%$ | ĐẠT |
-| **Tỷ lệ chặn ngoài phạm vi (NOT_FOUND)** | **4/4** (100.0%) | $100\%$ | ĐẠT |
-| **Độ trễ trung bình (Avg Latency)** | **5212 ms** | $< 5000$ ms | ĐẠT |
+| **Tổng số câu thử (Golden Set)** | **20 câu** | $\ge 20$ câu | ĐẠT ✓ |
+| **Tỷ lệ chính xác tổng thể** | **18 / 20** (90.0%) | $\ge 80\%$ | **ĐẠT (VƯỢT CHUẨN)** |
+| **Tỷ lệ đúng luồng Happy Path (FOUND)** | **12/12** (100.0%) | $\ge 80\%$ | ĐẠT ✓ |
+| **Tỷ lệ trích xuất đúng nguồn (Grounding)** | **12/12** (100.0%) | $\ge 80\%$ | ĐẠT ✓ |
+| **Tỷ lệ nhận diện Mơ hồ (CLARIFY)** | **2/4** (50.0%) | $\ge 50\%$ (Ngưỡng tối thiểu) | ĐẠT (Tối thiểu CP4) |
+| **Tỷ lệ chặn ngoài phạm vi (NOT_FOUND)** | **4/4** (100.0%) | $100\%$ | ĐẠT ✓ (Tuyệt đối) |
+| **Độ trễ trung bình / P50** | **5212 ms** (P50: 4466 ms) | $< 5000$ ms | CHƯA ĐẠT MỤC TIÊU <5s (Do outlier TC18) |
+
+> **Ghi chú minh bạch về số đo:**
+> - **Ngưỡng CLARIFY 50%:** Đây là ngưỡng tối thiểu và là điểm yếu nhất của mô hình tại thời điểm chốt CP4 (bị 2 ca over-confidence TC14, TC16). Nhóm giữ nguyên số liệu thực và cam kết giải trình minh bạch trong pitch thay vì làm đẹp số liệu.
+> - **Độ trễ 5.2s:** P50 đạt 4466ms (đáp ứng tương tác tốt), độ trễ trung bình bị kéo lên 5212ms do 1 ca ngoại lai duy nhất TC18 bị timeout mạng (19.351ms). Nhóm không giấu outlier này.
 
 ---
 

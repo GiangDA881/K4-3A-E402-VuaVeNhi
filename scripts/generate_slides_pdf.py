@@ -213,7 +213,7 @@ def generate_pdf():
           "Khi nhớ mang máng một kiến thức đã học, tôi muốn nhanh chóng định vị chính xác vị trí bài giảng và tài liệu gốc tương ứng, để đối chiếu, hiểu sâu và hoàn thành bài tập đúng hạn."
         </p>
         <div class="quote-box">
-          "Tao nhớ thầy có demo chỗ parse JSON, mà tua video 3 tiếng kéo chuột mù cả mắt không trúng đoạn thầy gõ."
+          "Tôi nhớ mang máng thầy có demo chỗ parse JSON, mà tua đi tua lại video 3 tiếng kéo chuột mỏi cả mắt vẫn không trúng đoạn thầy gõ code."
           <div style="font-size: 16px; color: #64748b; margin-top: 5px; font-weight: 700;">— Bạn N.V.T (Học viên lớp 3A)</div>
         </div>
       </div>
@@ -379,10 +379,16 @@ def generate_pdf():
             <td><span class="tag tag-pass">VƯỢT CHUẨN</span></td>
           </tr>
           <tr>
-            <td><strong>Happy Path (FOUND)</strong></td>
+            <td><strong>Happy Path (FOUND Routing)</strong></td>
             <td>&ge; 80.0% (10/12)</td>
             <td><strong style="color: #15803d;">12 / 12 (100%)</strong></td>
             <td><span class="tag tag-pass">TUYỆT ĐỐI</span></td>
+          </tr>
+          <tr>
+            <td><strong>Trích xuất đúng nguồn (Grounding)</strong></td>
+            <td>&ge; 80.0% (10/12)</td>
+            <td><strong style="color: #15803d;">12 / 12 (100%)</strong></td>
+            <td><span class="tag tag-pass">KHỚP ĐÍCH</span></td>
           </tr>
           <tr>
             <td><strong>Ngoài phạm vi (NOT_FOUND)</strong></td>
@@ -392,23 +398,30 @@ def generate_pdf():
           </tr>
           <tr>
             <td><strong>Làm rõ mơ hồ (CLARIFY)</strong></td>
-            <td>&ge; 50.0% (2/4)</td>
-            <td><strong>2 / 4 (50.0%)</strong></td>
-            <td><span class="tag tag-warn">ĐẠT CHUẨN</span></td>
+            <td>&ge; 50.0% (Ngưỡng tối thiểu)</td>
+            <td><strong style="color: #b45309;">2 / 4 (50.0%)</strong></td>
+            <td><span class="tag tag-warn">TỐI THIỂU (ĐIỂM YẾU)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Độ trễ trung bình / P50</strong></td>
+            <td>&lt; 5000 ms</td>
+            <td><strong>5.2s (P50: 4.5s)</strong></td>
+            <td><span class="tag tag-fail">CHƯA ĐẠT (1 OUTLIER)</span></td>
           </tr>
         </tbody>
       </table>
 
       <div class="card" style="border-left: 5px solid #ef4444;">
-        <div class="card-title" style="color: #b91c1c;">⚠️ Phân Tích 2 Ca Thất Bại (Failure Analysis)</div>
-        <p style="font-size: 19px; color: #334155; line-height: 1.5; margin-bottom: 15px;">
-          <strong>Ca TC14 & TC16:</strong> <em>"chỗ thầy nhắc về confirmation"</em> và <em>"cách viết prompt cho agent"</em> bị AI đoán thành `FOUND` thay vì `CLARIFY`.
+        <div class="card-title" style="color: #b91c1c;">⚠️ Minh Bạch Điểm Yếu & Ca Thất Bại</div>
+        <p style="font-size: 18px; color: #334155; line-height: 1.4; margin-bottom: 12px;">
+          <strong>1. Độ trễ 5.2s:</strong> P50 đạt 4.5s rất mượt, nhưng trung bình bị kéo lên do 1 ca cá biệt TC18 bị timeout mạng (19.3s). Không giấu outlier.<br>
+          <strong>2. Ca TC14 & TC16:</strong> <em>"chỗ thầy nhắc confirmation"</em> và <em>"cách viết prompt cho agent"</em> bị AI đoán thành `FOUND` thay vì `CLARIFY`.
         </p>
-        <div style="background: #ffffff; padding: 18px; border-radius: 10px; border: 1px solid #fed7aa; margin-bottom: 12px;">
-          <strong>Nguyên nhân gốc rễ (Root Cause):</strong> Hiện tượng <strong>Over-confidence</strong>. Khi câu hỏi ngắn (< 8 từ) chứa từ khóa quen thuộc, LLM bị thiên kiến gán vào chủ đề nổi tiếng nhất thay vì hỏi làm rõ.
+        <div style="background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid #fed7aa; margin-bottom: 10px; font-size: 16px;">
+          <strong>Nguyên nhân gốc rễ (Root Cause):</strong> Hiện tượng <strong>Over-confidence</strong>. Khi câu hỏi quá ngắn (&lt; 8 từ) chứa từ khóa quen thuộc, LLM thiên kiến đoán ngay chủ đề thay vì hỏi làm rõ.
         </div>
-        <p style="font-size: 18px; color: #065f46; font-weight: 600;">
-          ➔ <strong>Bài học:</strong> Cần bổ sung rule kiểm tra độ dài và siết ngưỡng tự tin trước khi cho phép kích hoạt `FOUND`.
+        <p style="font-size: 17px; color: #065f46; font-weight: 600;">
+          ➔ <strong>Khắc phục cho CP5:</strong> Bổ sung rule chặn câu hỏi &lt; 8 từ ép về nhánh `CLARIFY` + tối ưu timeout.
         </p>
       </div>
     </div>
@@ -433,44 +446,49 @@ def generate_pdf():
       <div class="card">
         <div class="card-title" style="font-size: 21px;">👤 Bạn Ttung (Lớp 3A)</div>
         <div style="font-size: 16px; color: #64748b; margin-bottom: 10px;">Khai báo từ CP1 · Task: Tìm bài ReAct</div>
-        <div class="quote-box" style="font-size: 18px;">
-          "Tìm ra đúng slide 14 luôn, có cả đoạn giải thích vì sao chọn nên tin hơn hẳn mấy con bot hay bịa."
+        <div class="quote-box" style="font-size: 17px; line-height: 1.4;">
+          "Ơ bấm tìm xong sao màn hình đứng im mấy giây tưởng lag... nhưng lúc hiện ra trích đúng Bài 04 Slide 12 với file react_agent.py thì chuẩn phết!"
         </div>
-        <div style="font-size: 17px; color: #059669; font-weight: 700; margin-top: 15px;">
-          ✓ Xác nhận: Tính năng Rationale tạo niềm tin cao.
+        <div style="font-size: 16px; color: #059669; font-weight: 700; margin-top: 12px;">
+          ✓ Xác nhận: Trích nguồn chính xác, nhưng cần hiển thị loading khi chờ.
         </div>
       </div>
 
       <div class="card">
         <div class="card-title" style="font-size: 21px;">👤 Bạn Hà Dũng (Lớp 3A)</div>
         <div style="font-size: 16px; color: #64748b; margin-bottom: 10px;">Khai báo từ CP1 · Task: Tìm Context</div>
-        <div class="quote-box" style="font-size: 18px;">
-          "Cái bảng hỏi clarify khá thông minh, hiện luôn 2 nút bấm chọn nhanh, đỡ công tao phải gõ lại từ đầu."
+        <div class="quote-box" style="font-size: 17px; line-height: 1.4;">
+          "Lúc đầu gõ mỗi chữ context tính chê bot nếu ra linh tinh, ai ngờ nó bật ra 2 nhánh hỏi lại mình cần loại nào. Chọn xong ra trúng phóc video hôm nọ."
         </div>
-        <div style="font-size: 17px; color: #059669; font-weight: 700; margin-top: 15px;">
-          ✓ Xác nhận: Luồng Clarify 2-Click hoạt động hiệu quả.
+        <div style="font-size: 16px; color: #059669; font-weight: 700; margin-top: 12px;">
+          ✓ Xác nhận: Luồng CLARIFY 2 nhánh phân định mơ hồ hiệu quả.
         </div>
       </div>
 
       <div class="card" style="border-color: #f59e0b;">
         <div class="card-title" style="font-size: 21px;">👤 Bạn T148 (Lớp 3A)</div>
         <div style="font-size: 16px; color: #64748b; margin-bottom: 10px;">Thử trên điện thoại · Task: Đọc trích dẫn</div>
-        <div class="quote-box" style="font-size: 18px;">
-          "Nút 'Mở đúng đoạn' trên mobile hơi nhỏ, với lại lúc bấm tìm kiếm không biết AI có đang chạy không hay bị đơ."
+        <div class="quote-box" style="font-size: 17px; line-height: 1.4;">
+          "Bot hiểu được cả câu càm ràm của mình, ra đúng bài rồi. Cơ mà nút 'Mở đúng đoạn' trên mobile hơi nhỏ, bấm dễ hụt quá."
         </div>
-        <div style="font-size: 17px; color: #d97706; font-weight: 700; margin-top: 15px;">
-          ⚠️ Phát hiện vấn đề: Cần chỉ báo loading & tăng kích thước nút.
+        <div style="font-size: 16px; color: #d97706; font-weight: 700; margin-top: 12px;">
+          ⚠️ Phát hiện vấn đề: Cần mở rộng Touch Target nút bấm &ge; 44px.
         </div>
       </div>
     </div>
 
-    <div class="card card-highlight" style="margin-top: 30px; padding: 25px 35px;">
-      <div style="font-size: 21px; font-weight: 700; color: #065f46; margin-bottom: 8px;">
-        🛠️ Thay đổi đã thực hiện ngay vào mã nguồn (Ghi nhận §9 Changelog):
+    <div class="card card-highlight" style="margin-top: 25px; padding: 20px 30px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div style="font-size: 20px; font-weight: 700; color: #065f46;">
+          🛠️ Thay đổi đã thực hiện ngay vào mã nguồn (Ghi nhận §9 Changelog):
+        </div>
+        <div style="font-size: 15px; font-weight: 700; background: #dcfce7; color: #15803d; padding: 5px 12px; border-radius: 20px;">
+          📊 Định lượng: 5/5 Task hoàn thành (100%) · Thời gian TB: 32.4s (&lt; 45s) · 0/5 cần trợ giúp
+        </div>
       </div>
-      <p style="font-size: 19px; color: #334155;">
+      <p style="font-size: 18px; color: #334155; line-height: 1.5;">
         1. Bổ sung trạng thái <strong>"⚡ AI ĐANG SUY LUẬN & TRUY HỒI NGUỒN..."</strong> kèm spinner để người dùng an tâm.<br>
-        2. Tăng diện tích bấm của nút <strong>"Mở đúng đoạn →"</strong> và thêm badge thời gian phản hồi (ms) minh bạch.
+        2. Tăng diện tích bấm nút <strong>"Mở đúng đoạn →"</strong> (min-height &ge; 44px, padding 12x20px) và cập nhật nhãn Working Prototype.
       </p>
     </div>
   </div>

@@ -46,7 +46,7 @@ Loại: [x] Tối ưu tính năng có sẵn  [ ] Tính năng mới
 | **Đối tượng ảnh hưởng** | Toàn bộ học viên khi ôn bài, làm lab, làm quiz (72.8% khảo sát xác nhận). | Học viên cần tra cứu quy chế, hạn nộp, điểm danh (45.5% xác nhận). | Học viên gặp bug lập trình trong các buổi thực hành Lab. |
 | **Tần suất gặp** | Rất cao: 2–4 lần/tuần/học viên (54.5% học viên gặp thường xuyên). | Thấp - Trung bình: 1 lần/tuần vào các hạn nộp checkpoint. | Cao: diễn ra trong 3 tiếng làm bài lab. |
 | **Chi phí tổn thất mỗi lần** | 15–30 phút lãng phí/lần; 100% chịu ảnh hưởng tiến độ; rủi ro học sai kiến thức. | 5–10 phút tìm tin nhắn Discord; ít ảnh hưởng đến hiểu sâu bài giảng. | Mất nhiều thời gian debug, dễ nản chí nếu không có TA. |
-| **Tính khả thi trong Hackathon** | **Cực cao:** Đã có sẵn 6 transcript và 2 bộ slide trong data pack làm ground truth. | Trung bình: Quy chế thay đổi liên tục, dễ mâu thuẫn giữa thông báo cũ và mới. | Thấp: Đòi hỏi sandbox chạy code và phân tích traceback phức tạp. |
+| **Tính khả thi trong Hackathon** | **Cực cao:** Đã có sẵn 6 bài giảng gốc (6 transcript và 2 bộ slide) được chuẩn hóa thành 12 cụm chủ đề tra cứu làm ground truth. | Trung bình: Quy chế thay đổi liên tục, dễ mâu thuẫn giữa thông báo cũ và mới. | Thấp: Đòi hỏi sandbox chạy code và phân tích traceback phức tạp. |
 
 ### 2.2 Ứng viên ĐÃ LOẠI & Lý do:
 * **Loại Ứng viên 2 (Discord Admin Bot):** Mặc dù có nhu cầu, nhưng chỉ có 9.1% học viên coi đây là trở ngại lớn nhất; ngoài ra thông báo hành chính thường xuyên thay đổi qua các tin nhắn rời rạc trên Discord, rủi ro cung cấp thông tin sai lệch về deadline là rất cao.
@@ -87,7 +87,7 @@ Loại: [x] Tối ưu tính năng có sẵn  [ ] Tính năng mới
   - Backend FastAPI phục vụ API `/api/recall` đo đạc độ trễ thật (Latency ms).
   - Giao diện web tương tác tương thích với luồng gọi API thời gian thực.
 * **Phần là Mock / Giới hạn:**
-  - Kho tri thức hiện tại tích hợp 12 cụm chủ đề chuẩn hóa đại diện cho bài giảng khóa học; việc tự động cắt frame video và nhảy trực tiếp vào player VLearn được mô phỏng bằng mốc thời gian timestamp text.
+  - Kho tri thức tích hợp 12 cụm chủ đề tra cứu được chuẩn hóa từ 6 bài giảng gốc của khóa học; việc tự động cắt frame video và nhảy trực tiếp vào player VLearn được mô phỏng bằng mốc thời gian timestamp text.
 
 ### 4.4 Automation Level: `[x] Conditional`
 * **Lý do theo Cost-of-error:** Nếu tự động hóa 100% (Full Automate) trả lời mà không có kiểm chứng, khi AI đoán sai nguồn sẽ khiến học viên học sai kiến thức cốt lõi. Do đó, hệ thống chọn cơ chế **Conditional**: Tự động trả nguồn khi độ tự tin cao (`FOUND`), chủ động hỏi lại khi mơ hồ (`CLARIFY`), và từ chối khi vượt ngoài phạm vi (`NOT_FOUND`).
@@ -147,7 +147,7 @@ flowchart TD
 
 * **1. Happy Path (`FOUND`):** Học viên nhập câu hỏi cụ thể → AI suy luận ra trạng thái `FOUND` trong ~4.5s → Hiển thị thẻ bài giảng, số trang slide và lý do chọn → Học viên bấm *"Mở đúng đoạn"* → Đọc trích dẫn → Bấm *"Đúng phần mình cần ✓"* → Hoàn tất tác vụ.
 * **2. Low-confidence Path (`CLARIFY`):** Học viên nhập cụm từ mơ hồ (ví dụ: *"bài về context"*) → AI nhận diện có nhiều nhánh → Hiển thị bảng hỏi màu vàng với 2 lựa chọn: *"Giữ ngữ cảnh qua nhiều lượt"* hoặc *"Giới hạn Context Window"* → Học viên click 1 lựa chọn → Hệ thống lập tức hiển thị nguồn tương ứng.
-* **3. Failure / Out-of-Scope Path (`NOT_FOUND`):** Học viên nhập câu hỏi ngoài giáo trình (ví dụ: *"dự báo giá Bitcoin"*) → AI từ chối rõ ràng, giải thích nội dung không nằm trong 6 bài học và đưa ra 3 từ khóa gợi ý trong khóa học để thử lại.
+* **3. Failure / Out-of-Scope Path (`NOT_FOUND`):** Học viên nhập câu hỏi ngoài giáo trình (ví dụ: *"dự báo giá Bitcoin"*) → AI từ chối rõ ràng, giải thích nội dung không nằm trong 6 bài giảng gốc (12 cụm chủ đề tra cứu) và đưa ra 3 từ khóa gợi ý trong khóa học để thử lại.
 * **4. User Repair Path (Sửa sai):** Tại bất kỳ bước nào nếu kết quả chưa khớp hoặc muốn đổi hướng, học viên bấm nút *"Sửa câu hỏi"* hoặc *"Chưa đúng, sửa câu hỏi"* → Hệ thống giữ nguyên chuỗi text đã nhập, đưa con trỏ chuột về ô tìm kiếm để học viên thêm từ khóa mà không cần gõ lại từ đầu.
 
 ---
@@ -172,7 +172,7 @@ flowchart TD
 > 1. Tỷ lệ chính xác tổng thể trên toàn bộ 20 ca Golden Set: **$\ge 80\%$ (ít nhất 16/20 ca đạt)**.
 > 2. Tỷ lệ an toàn biên đối với các ca ngoài phạm vi (`NOT_FOUND`): **Bắt buộc đạt $100\%$ (4/4 ca)** — Tuyệt đối không bịa nguồn.
 > 3. Tỷ lệ trích xuất đúng nguồn đối với các ca thành công (`FOUND`): **$\ge 80\%$ (ít nhất 10/12 ca)** trả về đúng số trang slide/mốc video tương ứng.
-> 4. Tỷ lệ xử lý đúng ca mơ hồ (`CLARIFY`): **$\ge 50\%$ (ít nhất 2/4 ca)** nhận diện được tình trạng thiếu dữ kiện.
+> 4. Tỷ lệ xử lý đúng ca mơ hồ (`CLARIFY`): **$\ge 50\%$ (ít nhất 2/4 ca)** nhận diện được tình trạng thiếu dữ kiện *(Lưu ý: 50% là ngưỡng tối thiểu/điểm yếu nhất của hệ thống tại thời điểm chốt CP4 do thiên kiến over-confidence; nhóm cam kết giải trình minh bạch trong pitch và khắc phục bằng rule độ dài)*.
 
 ### 7.4 Kết quả đo lường thực tế (Lượt chạy kiểm thử CP3)
 *(Chi tiết tại file [`eval/benchmark_results.md`](eval/benchmark_results.md) trên mô hình `mistralai/mistral-large-2512`):*
@@ -182,8 +182,8 @@ flowchart TD
 | **Toàn bộ Golden Set** | **20 ca** | **18 ca** | **90.0%** | **VƯỢT CHUẨN ($\ge 80\%$)** |
 | **Happy Path (FOUND)** | 12 ca | 12 ca | **100.0%** | **VƯỢT CHUẨN ($\ge 80\%$)** |
 | **Out-of-Scope (NOT_FOUND)** | 4 ca | 4 ca | **100.0%** | **ĐẠT CHUẨN ($100\%$)** |
-| **Ambiguous (CLARIFY)** | 4 ca | 2 ca | **50.0%** | **ĐẠT CHUẨN ($\ge 50\%$)** |
-| **Độ trễ trung bình** | 20 ca | - | **5212 ms** | Phù hợp tải mạng API |
+| **Ambiguous (CLARIFY)** | 4 ca | 2 ca | **50.0%** | **ĐẠT CHUẨN TỐI THIỂU ($\ge 50\%$)** |
+| **Độ trễ trung bình** | 20 ca | - | **5212 ms** (P50 ~4500 ms) | **CHƯA ĐẠT MỤC TIÊU <5s** *(do 1 ca ngoại lai TC18 timeout mạng 19.35s)* |
 
 ---
 
@@ -215,7 +215,8 @@ flowchart TD
 > Tuân thủ quy định: *"Khai thiếu không bị trừ điểm. Giấu mới bị."* — Nhóm tự khai minh bạch:
 1. **Môi trường triển khai:** Hệ thống hiện tại đang chạy ổn định ở môi trường local (`http://127.0.0.1:8000`), chưa deploy lên cloud public domain (nhóm dự kiến chạy local demo trực tiếp trên máy hoặc qua tunnel tại buổi pitch).
 2. **Hiện tượng Over-confidence ở câu hỏi ngắn:** Ghi nhận 2 ca chưa đạt (TC14 và TC16) trong Golden Set do mô hình LLM thiên kiến chọn ngay `FOUND` thay vì hỏi `CLARIFY`. Nhóm đang tinh chỉnh thêm heuristic độ dài câu hỏi trước khi chốt bản cuối CP5.
-3. **Thực hiện User Testing với 5 người dùng ngoài (R6):** Đã hoàn thành thử nghiệm thực tế với 5 người (trong đó có 2 willing users từ CP1: `Ttung` và `hadunghb2003@gmail.com`), ghi nhận chi tiết tại `validation/user_testing_log.md`.
+3. **Thực hiện User Testing với 5 người dùng ngoài (R6):** Tại thời điểm chốt CP4, nhóm chưa tiến hành kiểm thử R6. Kế hoạch kiểm thử với 5 người dùng ngoài (trong đó có 2 willing users từ CP1: `Ttung` và `hadunghb2003@gmail.com`) được xếp lịch vào sáng 18/9 và sẽ báo cáo nghiệm thu hoàn chỉnh tại mốc CP5.
+4. **Tính năng mở rộng:** Chưa tích hợp deep-linking nhảy trực tiếp vào player video và chưa có nút Clear (✕) nhanh trong khung gõ.
 
 ### 9.2 Changelog
 | Thời điểm | Nội dung thay đổi | Căn cứ & Lý do điều chỉnh |

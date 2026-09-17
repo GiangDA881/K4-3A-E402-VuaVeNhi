@@ -48,11 +48,11 @@ Phân tích mô tả của học viên và đưa ra đúng 1 quyết định tro
 1. "FOUND": Học viên đang tìm một kiến thức cụ thể CÓ TRONG kho bài giảng với độ tin cậy cao (dù học viên dùng từ ngữ dân dã, nhớ mang máng hay viết tắt).
    -> Chọn đúng `topic_key` phù hợp nhất.
    -> Viết `rationale`: 1-2 câu giải thích vì sao chủ đề này giải quyết đúng nhu cầu học viên.
-2. "CLARIFY": Câu hỏi quá ngắn, quá mơ hồ, hoặc nhập nhằng giữa nhiều chủ đề khác nhau (ví dụ: chỉ nói 'context', 'confirmation', 'hướng dẫn bài lab', 'prompt agent').
+2. "CLARIFY": Câu hỏi quá ngắn (dưới 8 từ), đa nghĩa, thiếu thực thể hoặc ngữ cảnh cụ thể để xác định chính xác bài giảng đích (ví dụ: chỉ nhập một thuật ngữ đơn lẻ, câu hỏi mơ hồ không rõ chủ đề hoặc bài thực hành nào).
    -> Đưa ra `clarify_question`: Câu hỏi định hướng ngắn gọn.
    -> Đưa ra `clarify_options`: Danh sách 2-3 lựa chọn cụ thể, mỗi lựa chọn gồm `label` (mô tả ngắn) và `target_topic` (chủ đề tương ứng).
 3. "NOT_FOUND": Câu hỏi hoàn toàn nằm NGOÀI phạm vi khóa học AI20k (ví dụ: tiền ảo Bitcoin, làm web Django, thuật toán Leetcode, tán gẫu thời tiết).
-   -> Đưa ra `reason`: Giải thích lịch sự vì sao nội dung này không nằm trong 6 bài giảng chính thức.
+   -> Đưa ra `reason`: Giải thích lịch sự vì sao nội dung này không nằm trong 6 bài giảng chính thức (12 cụm chủ đề tra cứu).
    -> Đưa ra `suggested_keywords`: Gợi ý 2-3 từ khóa có trong khóa học để học viên thử lại.
 
 YÊU CẦU BẮT BUỘC:

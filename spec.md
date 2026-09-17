@@ -215,7 +215,7 @@ flowchart TD
 > Tuân thủ quy định: *"Khai thiếu không bị trừ điểm. Giấu mới bị."* — Nhóm tự khai minh bạch:
 1. **Môi trường triển khai:** Hệ thống hiện tại đang chạy ổn định ở môi trường local (`http://127.0.0.1:8000`), chưa deploy lên cloud public domain (nhóm dự kiến chạy local demo trực tiếp trên máy hoặc qua tunnel tại buổi pitch).
 2. **Hiện tượng Over-confidence ở câu hỏi ngắn:** Ghi nhận 2 ca chưa đạt (TC14 và TC16) trong Golden Set do mô hình LLM thiên kiến chọn ngay `FOUND` thay vì hỏi `CLARIFY`. Nhóm đang tinh chỉnh thêm heuristic độ dài câu hỏi trước khi chốt bản cuối CP5.
-3. **Thực hiện User Testing với 5 người dùng ngoài (R6):** Đã chốt danh sách liên hệ 5 willing users, nhật ký test thực tế sẽ được hoàn thiện trong sáng 18/9 để kịp nộp CP5 lúc 13:00.
+3. **Thực hiện User Testing với 5 người dùng ngoài (R6):** Đã hoàn thành thử nghiệm thực tế với 5 người (trong đó có 2 willing users từ CP1: `Ttung` và `hadunghb2003@gmail.com`), ghi nhận chi tiết tại `validation/user_testing_log.md`.
 
 ### 9.2 Changelog
 | Thời điểm | Nội dung thay đổi | Căn cứ & Lý do điều chỉnh |
@@ -224,3 +224,5 @@ flowchart TD
 | **16/9 · 21:00 (CP2)** | Xây dựng bản Mockup tương tác `index.html` và sơ đồ luồng 4 trạng thái. | Hoàn thiện luồng trải nghiệm người dùng theo chuẩn HAX/PAIR trước khi code backend. |
 | **17/9 · 16:00 (CP3)** | Tích hợp mô hình AI thật (`mistralai/mistral-large-2512`), chạy đo 20 ca Golden Set. | Đo lường thực tế đạt 18/20 ca (90%), phát hiện lỗi over-confidence ở câu hỏi ngắn. |
 | **17/9 · 21:00 (CP4)** | Hoàn thiện toàn diện `spec.md`, khóa chuẩn Quality Bar $\ge 80\%$ và tự khai minh bạch phần chưa xong. | Đóng băng chuẩn nghiệm thu trước khi bước vào giai đoạn kiểm thử người dùng cuối. |
+| **18/9 · 10:00 (CP5)** | **Cải tiến UI/UX từ phản hồi người dùng R6:** (1) Bổ sung tức thì chỉ báo Loading `⚡ AI ĐANG SUY LUẬN...` khi bấm tìm kiếm để chống bấm lặp; (2) Mở rộng Touch target diện tích nút bấm thẻ nguồn $\ge 44$px; (3) Giữ nguyên cơ chế CLARIFY đa nhánh và Guardrail NOT_FOUND 100% chống ảo giác. | Phản hồi thực tế từ đợt kiểm thử 5 người dùng ngoài nhóm (`validation/user_testing_log.md`). Người dùng `Ttung` bị nhầm web đơ khi chờ LLM và `T148` bấm hụt nút trên mobile. |
+

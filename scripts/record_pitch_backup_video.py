@@ -67,14 +67,11 @@ def run_pitch_backup_recording():
                 cursor.style.background = 'rgba(220,38,38,0.88)';
             });
 
-            // Add Pitch Tag
-            const headerRow = document.querySelector('header .row');
-            if (headerRow) {
-                const pitchBadge = document.createElement('span');
-                pitchBadge.className = 'tag';
-                pitchBadge.style.cssText = 'background:#ecfdf5;color:#059669;font-weight:700;border:1px solid #10b981;padding:6px 14px;border-radius:20px;';
-                pitchBadge.textContent = 'CP5 · PITCH DEMO (LIVE AI BACKEND)';
-                headerRow.prepend(pitchBadge);
+            // Set Pitch Tag
+            const existingTag = document.querySelector('header .tag');
+            if (existingTag) {
+                existingTag.style.cssText = 'background:#ecfdf5;color:#059669;font-weight:700;border:1px solid #10b981;padding:6px 14px;border-radius:20px;';
+                existingTag.textContent = 'CP5 · PITCH DEMO (LIVE AI BACKEND)';
             }
         }
         """)
